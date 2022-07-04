@@ -3,7 +3,7 @@ import React from "react";
 class Header extends React.Component {
     render() {
         return (
-            <div>
+            <div className="text-center">
                 <h1>
                     {this.props.title}
                 </h1>

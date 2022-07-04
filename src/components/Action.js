@@ -1,45 +1,41 @@
 import React from "react";
 
 class Action extends React.Component {
-    state = {
-        err: ''
-    }
     constructor(props) {
         super(props);
-        this.addItem = this.addItem.bind(this);
+
+        this.onFormSubmit = this.onFormSubmit.bind(this);
+        this.showAllChange = this.showAllChange.bind(this);
+
     }
 
-    addItem(e) {
+    onFormSubmit(e) {
         e.preventDefault();
-        const task = document.getElementById('newTask').value;
-        let res = this.props.addItem(task);
 
-        if (res) {
-            this.setState({
-                err: res
-            })
-        }else{
-            this.setState({
-                err: ''
-            })
-        }
+        this.props.addItem(e.target[0].value);
+        e.target[0].value = '';
+    }
 
-        document.getElementById('newTask').value = '';
+    showAllChange(){
+        this.props.showAllChange();
     }
 
     render() {
         return (
-            <form>
-                <div className="input-group mb-3">
-                    <input id="newTask" type="text" className="form-control" placeholder="Bir görev giriniz.." />
-                    <button onClick={this.addItem} className="btn btn-outline-primary" type="submit">Ekle</button>
+            <div>
+                <div className="form-check mb-3">
+                    <input className="form-check-input" type="checkbox" checked={this.props.showAll} onChange={this.showAllChange} />
+                        <label className="form-check-label">
+                            Tüm Görevleri Göster
+                        </label>
                 </div>
-                {
-                    this.state.err.length > 0 && <div className="alert alert-danger">
-                        {this.state.err}
+                <form onSubmit={this.onFormSubmit}>
+                    <div className="input-group mb-3">
+                        <input type="text" className="form-control" placeholder="Görev giriniz.." />
+                        <button className="btn btn-outline-primary" type="submit">Ekle</button>
                     </div>
-                }
-            </form>
+                </form>
+            </div>
         );
     }
 }
